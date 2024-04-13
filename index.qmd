@@ -1,20 +1,40 @@
-# Sense It, Map It, Sorted - (Title Here)
+# Sense It, Map It, Sorted - Flooding the Sindh region of Pakistan
 
-## Project Summary 
+## Project Summary
 
-Fill in the sections below to provide a brief summary of your project. Each section should have no more than 100 words. Do not edit any of the headings.
+*Fill in the sections below to provide a brief summary of your project. Each section should have no more than 100 words. Do not edit any of the headings.*
 
-### Problem Statement 
+### Problem Statement
 
-What is the problem you’re trying to address using this application? 
+*What is the problem you're trying to address using this application?*
 
-### End User 
+Pakistan is among the countries with the highest disaster risk level globally. Flooding is the main hazard contributing to disaster risk in Pakistan with high exposure to riverine, flash and coastal flooding as well as tropical cyclones and high social vulnerability driven by multi-dimensional poverty. Flood risk and damage assessments exist at the national level. However, local level data on flood risk is missing. Local governments need such data for their jurisdictions in order to access adaptation funding and direct investment to the areas with highest risk.
 
-Who are you building this application for? How does it address a need this community has?
+### End User
+
+*Who are you building this application for? How does it address a need this community has?*
+
+The application is built for local governments in the Sindh region of Pakistan. Flood risk adaptation is at the top of the political agenda of the divisional (second level) and district level (third level) government in Sindh. During the devastating floods of 2022, the region was hit hardest with around 800 casualties, collapsing infrastructure, and 4.4 million acres of agricultural land destroyed. The application helps level governments in the Sindh region to understand flood risk locally and support adaptation investment decisions in multi-level governance systems.
+
+The end user wants to know:
+
+-   In which areas are floods likely to occur?
+
+-   What is the level of damage on population, buildings, and agriculture in these areas?
+
+![Flooding in Sindh, 2022 (Source: https://news.un.org/en/story/2022/09/1126001)](images/floodsindh.jpg)
+
+https://www.worldbank.org/en/news/feature/2023/06/28/rising-from-the-waters-sindh-navigates-recovery-after-the-2022-floods
 
 ### Data
 
-What data are you using? 
+*What data are you using?*
+
+The application use the following data sources:
+
+-   Flood events: The [Global Flood Database](https://developers.google.com/earth-engine/datasets/catalog/GLOBAL_FLOOD_DB_MODIS_EVENTS_V1) contains maps 913 flood events between 2000-2018 globally and is based on MODIS imagery.
+-   Population: High Resolution Population Density Maps from Data for Good.
+-   Land use: The [Dynamic World Dataset](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1) was used. It contains near real time Land Use Land Cover classification based on Sentunel 2 imagary from 2015 to present. Only the classes "bulit up" and "crops" are used for the application.
 
 ### Methodology
 
@@ -22,22 +42,25 @@ How are you using this data to address the problem?
 
 ### Interface
 
-How does your application's interface work to address the needs of your end user?
+*How does your application's interface work to address the needs of your end user?*
 
-## The Application 
+Local governments in the Sindh region need a simple to use application that allows for rapid identification of flood risk locally with a simple presentation of data without technical jargon. The interface has two layers. On the first (left-hand side), the user can retrieve comparative information about affected area and population as well as number of flood events per district. The user can select a district and retrieve more detailed information about the number of flood events, population affected over time and land use types affected on the right-hand side.
+
+## The Application
 
 Replace the link below with the link to your application.
 
-:::{.column-page}
+::: column-page
+<iframe src="https://ollielballinger.users.earthengine.app/view/turkey-earthquake" width="100%" height="700px">
 
-<iframe src='https://ollielballinger.users.earthengine.app/view/turkey-earthquake' width='100%' height='700px'></iframe>
-
+</iframe>
 :::
-## How it Works 
+
+## How it Works
 
 Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):
 
-```js
+``` js
 Map.setCenter(35.51898, 33.90153, 15);
 
 Map.setOptions("satellite");
@@ -49,7 +72,4 @@ You can include images:
 
 ![Pixelwise T-Test, 2018](images/beirut_change_2020.jpg)
 
-and math:
-$$ \Large t = {\frac{\overline{x_1}-\overline{x_2}} {\sqrt{\frac{s^2_1}{n_1} + \frac{s^2_2}{n_2}}}} $$
-
-
+and math: $$ \Large t = {\frac{\overline{x_1}-\overline{x_2}} {\sqrt{\frac{s^2_1}{n_1} + \frac{s^2_2}{n_2}}}} $$
