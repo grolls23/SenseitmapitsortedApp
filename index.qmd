@@ -34,7 +34,7 @@ The application use the following data sources:
 
 -   Flood events: The [Global Flood Database](https://developers.google.com/earth-engine/datasets/catalog/GLOBAL_FLOOD_DB_MODIS_EVENTS_V1) contains maps 913 flood events between 2000-2018 globally and is based on MODIS imagery.
 -   Population: High Resolution Population Density Maps from Data for Good.
--   Land use: The [Dynamic World Dataset](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1) was used. It contains near real time Land Use Land Cover classification based on Sentunel 2 imagary from 2015 to present. Only the classes "bulit up" and "crops" are used for the application.
+-   Land use: The [Dynamic World Dataset](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1) was used. It contains near real time Land Use Land Cover classification based on Sentinel 2 imagery from 2015 to present. Only the classes "bulit up" and "crops" are used for the application.
 
 ### Methodology
 
