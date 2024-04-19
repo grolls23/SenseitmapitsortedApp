@@ -95,8 +95,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -121,12 +119,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="problem-statement" class="level3">
 <h3 class="anchored" data-anchor-id="problem-statement">Problem Statement</h3>
 <p><em>What is the problem you’re trying to address using this application?</em></p>
-<p>Pakistan is among the countries with the highest disaster risk level globally. Flooding is the main hazard contributing to disaster risk in Pakistan with high exposure to riverine, flash and coastal flooding as well as tropical cyclones and high social vulnerability driven by multi-dimensional poverty. Flood risk and damage assessments exist at the national level. However, local level data on flood risk is missing. Local governments need such data for their jurisdictions in order to access adaptation funding and direct investment to the areas with highest risk.</p>
+<p>Pakistan has one of the highest disaster risk levels globally. Flooding is the main hazard contributing to disaster risk in Pakistan, which has high exposure to riverine, flash and coastal flooding as well as tropical cyclones and high social vulnerability driven by multi-dimensional poverty. Flood risk and damage assessments exist at the national level, however, local level data on flood risk is missing. Local governments need such data for their jurisdictions in order to access adaptation funding and direct investment to the areas with highest risk.</p>
 </section>
 <section id="end-user" class="level3">
 <h3 class="anchored" data-anchor-id="end-user">End User</h3>
 <p><em>Who are you building this application for? How does it address a need this community has?</em></p>
-<p>The application is built for local governments in the Sindh region of Pakistan. Flood risk adaptation is at the top of the political agenda of the divisional (second level) and district level (third level) government in Sindh. During the devastating floods of 2022, the region was hit hardest with around 800 casualties, collapsing infrastructure, and 4.4 million acres of agricultural land destroyed. The application helps level governments in the Sindh region to understand flood risk locally and support adaptation investment decisions in multi-level governance systems.</p>
+<p>This application is built for local governments in the Sindh region of Pakistan. Flood risk adaptation is at the top of the political agenda of the divisional (second level) and district level (third level) government in Sindh. In the devastating floods of 2022, the region was hit hardest in Pakistan, with around 800 casualties, collapsing infrastructure, and 1.78 million hectares of agricultural land destroyed. This application helps secand and third level governments in the Sindh region understand flood risk locally and support adaptation investment decisions in multi-level governance systems.</p>
 <p>The end user wants to know:</p>
 <ul>
 <li><p>In which areas are floods likely to occur?</p></li>
@@ -145,9 +143,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><em>What data are you using?</em></p>
 <p>The application use the following data sources:</p>
 <ul>
-<li>Flood events: The <a href="https://developers.google.com/earth-engine/datasets/catalog/GLOBAL_FLOOD_DB_MODIS_EVENTS_V1">Global Flood Database</a> contains maps 913 flood events between 2000-2018 globally and is based on MODIS imagery.</li>
-<li>Population: High Resolution Population Density Maps from Data for Good.</li>
-<li>Land use: The <a href="https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1">Dynamic World Dataset</a> was used. It contains near real time Land Use Land Cover classification based on Sentinel 2 imagery from 2015 to present. Only the classes “bulit up” and “crops” are used for the application.</li>
+<li><strong>Flood events</strong>: The <a href="https://developers.google.com/earth-engine/datasets/catalog/GLOBAL_FLOOD_DB_MODIS_EVENTS_V1">Global Flood Database</a> contains maps 913 flood events between 2000-2018 globally and is based on MODIS imagery.</li>
+<li><strong>Population</strong>: High Resolution Population Density Maps from Data for Good.</li>
+<li><strong>Land use:</strong> The <a href="https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1">Dynamic World Dataset</a> was used. It contains near real time Land Use Land Cover classification based on Sentinel 2 imagery from 2015 to present. Only the classes “bulit up” and “crops” are used for the application.</li>
 </ul>
 </section>
 <section id="methodology" class="level3">
@@ -162,7 +160,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-application" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="the-application">The Application</h2>
-<p>Replace the link below with the link to your application.</p>
 <div class="column-page">
 <iframe src="https://ollielballinger.users.earthengine.app/view/turkey-earthquake" width="100%" height="700px">
 </iframe>
@@ -176,14 +173,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Map</span><span class="op">.</span><span class="fu">setOptions</span>(<span class="st">"satellite"</span>)<span class="op">;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> aoi <span class="op">=</span> ee<span class="op">.</span><span class="at">Geometry</span><span class="op">.</span><span class="fu">Point</span>(<span class="fl">35.51898</span><span class="op">,</span> <span class="fl">33.90153</span>)<span class="op">.</span><span class="fu">buffer</span>(<span class="dv">3000</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You can include images:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/beirut_change_2020.jpg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Pixelwise T-Test, 2018</figcaption>
-</figure>
-</div>
-<p>and math: <span class="math display">\[ \Large t = {\frac{\overline{x_1}-\overline{x_2}} {\sqrt{\frac{s^2_1}{n_1} + \frac{s^2_2}{n_2}}}} \]</span></p>
 
 
 </section>
