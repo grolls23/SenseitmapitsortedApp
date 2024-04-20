@@ -32,6 +32,9 @@ The application uses the following data sources:
 
 ### Methodology
 
+![Methods flowchart](images/flowchart.png)
+
+
 How are you using this data to address the problem?
 
 The data is used to develop an indicative flood risk map at division and district level in Pakistan. Risk is commonly defined as function of hazard, exposure and vulnerability. The baseline assumption of this analysis is that areas that have been flooded in the past are expected to flood in the future. Hence, using a cumulative analysis of flood events between 2000 and 2018, the occurrence of floods is used as a proxy for exposure. A vulnerability index is calculated as a product of the raw population count and the number of flood occurrences. The results are combined into an integrated user interface.
