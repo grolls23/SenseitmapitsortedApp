@@ -32,7 +32,7 @@ https://www.worldbank.org/en/news/feature/2023/06/28/rising-from-the-waters-sind
 
 The application use the following data sources:
 
--   **Flood events**: The [Global Flood Database](https://developers.google.com/earth-engine/datasets/catalog/GLOBAL_FLOOD_DB_MODIS_EVENTS_V1) contains maps 913 flood events between 2000-2018 globally and is based on MODIS imagery.
+-   **Flood events**: The [Global Flood Database](https://developers.google.com/earth-engine/datasets/catalog/GLOBAL_FLOOD_DB_MODIS_EVENTS_V1) contains 913 flood events between 2000-2018 globally and is based on MODIS imagery. Each pixel is classified as water or non-water at 250m resolution where permanent water is masked out using the Global Surface Water dataset.
 -   **Population**: High Resolution Population Density Maps from Data for Good. (HRSL)
 -   **Land use:** The [Dynamic World Dataset](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1) was used. It contains near real time Land Use Land Cover classification based on Sentinel 2 imagery from 2015 to present. Only the classes "bulit up" and "crops" are used for the application.
 
@@ -40,7 +40,15 @@ The application use the following data sources:
 
 How are you using this data to address the problem?
 
-Cumulative analysis of flood events between 2000 and 2018. Counting the flood accurance which is used as a flood
+-   The data is used to develop an indicative flood risk map for regions and sub-regions in Pakistan.
+
+-   Risk is a function of hazard, exposure and vulnerability as defined by UNDRR.
+
+-   The baseline assumption is that areas that have been flooded in the past are at higher risk of flooding in the future.
+
+-   A cumulative analysis of flood events between 2000 and 2018. Counting the flood occurance is used as a proxy for eposure.
+
+-   Vulnerability is the product of the raw population count and the number of flood occurrences
 
 ### Interface
 
