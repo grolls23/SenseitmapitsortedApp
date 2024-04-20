@@ -170,18 +170,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):</p>
 <section id="three-main-parts-of-analaysis" class="level3">
 <h3 class="anchored" data-anchor-id="three-main-parts-of-analaysis">Three main parts of analaysis</h3>
-<p>Our projects involves 3 key parts using different data: population, land-use, and vulnerability.</p>
+<p>Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The <code>app.js</code> file collects the different data layers and parts of analysis into one integrated application, which is deployed into a live Google Earth Engine Application. Each elemnt is described in detail below:</p>
 <section id="population-data-analysis" class="level4">
 <h4 class="anchored" data-anchor-id="population-data-analysis">Population Data Analysis</h4>
+<p>TODO</p>
 </section>
 <section id="land-use-analysis" class="level4">
 <h4 class="anchored" data-anchor-id="land-use-analysis">Land Use Analysis</h4>
+<p>TODO</p>
 </section>
 <section id="vulnerability-index" class="level4">
 <h4 class="anchored" data-anchor-id="vulnerability-index">Vulnerability Index</h4>
-<p>The vulnerability index is a product of the population count and number of flood occurrences per area, calculated as below:</p>
+<p>The vulnerability index is a product of the raw population count and the number of flood occurrences, calculated as below:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> vulnerabilityIndex <span class="op">=</span> clippedHRSL<span class="op">.</span><span class="fu">multiply</span>(clippedCumulativeFlooded)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For prettier visualisation, the vulnerability index is smoothed using a 500m kernel, using the function below.</p>
+<p>Given, that population data is at a high resolution (30m), when mapping this layer, we use a smoothing kernel of size 500m kernel, in order to make its visualisation prettier. This is done using the function below:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> kernel <span class="op">=</span> ee<span class="op">.</span><span class="at">Kernel</span><span class="op">.</span><span class="fu">square</span>({</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">radius</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">units</span><span class="op">:</span> <span class="st">'meters'</span></span>

@@ -57,21 +57,22 @@ Local governments in the Sindh region need a simple to use application that allo
 Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):
 
 ### Three main parts of analaysis
-Our projects involves 3 key parts using different data: population, land-use, and vulnerability.
+Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The `app.js` file collects the different data layers and parts of analysis into one integrated application, which is deployed into a live Google Earth Engine Application. Each elemnt is described in detail below:
 
 #### Population Data Analysis
+TODO
 
 #### Land Use Analysis
+TODO
 
 #### Vulnerability Index
 
-The vulnerability index is a product of the population count and number of flood occurrences per area, calculated as below:
+The vulnerability index is a product of the raw population count and the number of flood occurrences, calculated as below:
 
 ``` js
 var vulnerabilityIndex = clippedHRSL.multiply(clippedCumulativeFlooded);
 ```
-
-For prettier visualisation, the vulnerability index is smoothed using a 500m kernel, using the function below.
+Given, that population data is at a high resolution (30m), when mapping this layer, we use a smoothing kernel of size 500m kernel, in order to make its visualisation prettier. This is done using the function below:
 
 ``` js
 var kernel = ee.Kernel.square({
