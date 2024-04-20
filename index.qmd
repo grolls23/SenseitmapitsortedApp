@@ -33,7 +33,7 @@ https://www.worldbank.org/en/news/feature/2023/06/28/rising-from-the-waters-sind
 The application use the following data sources:
 
 -   **Flood events**: The [Global Flood Database](https://developers.google.com/earth-engine/datasets/catalog/GLOBAL_FLOOD_DB_MODIS_EVENTS_V1) contains maps 913 flood events between 2000-2018 globally and is based on MODIS imagery.
--   **Population**: High Resolution Population Density Maps from Data for Good.
+-   **Population**: High Resolution Population Density Maps from Data for Good. (HRSL)
 -   **Land use:** The [Dynamic World Dataset](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1) was used. It contains near real time Land Use Land Cover classification based on Sentinel 2 imagery from 2015 to present. Only the classes "bulit up" and "crops" are used for the application.
 
 ### Methodology
@@ -57,7 +57,7 @@ Local governments in the Sindh region need a simple to use application that allo
 Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):
 
 ### Three main parts of analaysis
-Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The `app.js` file collects the different data layers and parts of analysis into one integrated application, which is deployed into a live Google Earth Engine Application. Each elemnt is described in detail below:
+Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The `app.js` file collects the different data layers and parts of analysis into one integrated app, deployed as a live Google Earth Engine Application. Each element is described in detail below:
 
 #### Population Data Analysis
 TODO
@@ -66,7 +66,7 @@ TODO
 TODO
 
 #### Vulnerability Index
-
+Using the HRSL data and the GFD, 
 The vulnerability index is a product of the raw population count and the number of flood occurrences, calculated as below:
 
 ``` js
@@ -88,3 +88,5 @@ var interpolate = function(image) {
 
 var smoothedVulnerabilityIndex = interpolate(vulnerabilityIndex).updateMask(interpolate(vulnerabilityIndex).gt(0));
 ```
+
+
