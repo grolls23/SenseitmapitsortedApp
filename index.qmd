@@ -40,6 +40,8 @@ The application use the following data sources:
 
 How are you using this data to address the problem?
 
+Cumulative analysis of flood events between 2000 and 2018. Counting the flood accurance which is used as a flood
+
 ### Interface
 
 *How does your application's interface work to address the needs of your end user?*
@@ -49,7 +51,9 @@ Local governments in the Sindh region need a simple to use application that allo
 ## The Application
 
 ::: column-page
-<iframe src='https://ee-yankomagn.projects.earthengine.app/view/floods-pakistan' width='100%' height='700px'></iframe>
+<iframe src="https://ee-yankomagn.projects.earthengine.app/view/floods-pakistan" width="100%" height="700px">
+
+</iframe>
 :::
 
 ## How it Works
@@ -57,21 +61,25 @@ Local governments in the Sindh region need a simple to use application that allo
 Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):
 
 ### Three main parts of analaysis
+
 Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The `app.js` file collects the different data layers and parts of analysis into one integrated app, deployed as a live Google Earth Engine Application. Each element is described in detail below:
 
 #### Population Data Analysis
+
 TODO
 
 #### Land Use Analysis
+
 TODO
 
 #### Vulnerability Index
-Using the HRSL data and the GFD, 
-The vulnerability index is a product of the raw population count and the number of flood occurrences, calculated as below:
+
+Using the HRSL data and the GFD, The vulnerability index is a product of the raw population count and the number of flood occurrences, calculated as below:
 
 ``` js
 var vulnerabilityIndex = clippedHRSL.multiply(clippedCumulativeFlooded);
 ```
+
 Given, that population data is at a high resolution (30m), when mapping this layer, we use a smoothing kernel of size 500m kernel, in order to make its visualisation prettier. This is done using the function below:
 
 ``` js
@@ -88,5 +96,3 @@ var interpolate = function(image) {
 
 var smoothedVulnerabilityIndex = interpolate(vulnerabilityIndex).updateMask(interpolate(vulnerabilityIndex).gt(0));
 ```
-
-
