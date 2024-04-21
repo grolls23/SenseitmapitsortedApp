@@ -96,7 +96,7 @@ When the user selects a district (regional subdivision) and requests analysis of
 
 The multiplier (300 * 300 / 1000000) is a conversion from pixels to square kilometres (specific to the scale of this reducer). Population calculations applied a sum reducer instead of a count reducer, separated by age band.
 
-```js
+``` js
   var populationByAgeBand_aoi = HRSL_collection.reduceRegion({
     reducer: ee.Reducer.sum(),
     geometry: aoi.geometry(),
@@ -135,3 +135,141 @@ var interpolate = function(image) {
 
 var smoothedVulnerabilityIndex = interpolate(vulnerabilityIndex).updateMask(interpolate(vulnerabilityIndex).gt(0));
 ```
+
+### User Interface and Interaction
+
+The user interface is constructed from the map and 2 panels - one on the left controlling the regional (level 1) level, and on the right the district (level 2) level of analysis. Switching between these 2 levels is controlled by buttons on the corresponding UI.
+
+``` js
+// buttons to control levels
+
+// button to deep dive into district, located in the left panel
+var zoom_in_button = ui.Button({
+  label: "Zoom into district level",
+  onClick: function(){
+    // add and reset panel on the right
+    ui.root.add(right_panel);
+    update_l2_selection(select_l1.getValue());
+    // disable self
+    zoom_in_button.setDisabled(true);
+  },
+});
+
+// button to zoom out to regional level, located on right panel
+var zoom_out_button = ui.Button({
+  label: "Zoom out to regional scale",
+  onClick: function(){
+    // remove panel
+    ui.root.remove(right_panel);
+    // re-enable zoom_in_button
+    zoom_in_button.setDisabled(false);
+    // run analysis for regional level
+    l1_analysis(select_l1.getValue());
+  },
+});
+```
+
+Each level of analysis is defined under a function, with the structure shown in the pseudo-code below. In the L2 level analysis, the selection of criteria dictates the analysis, thus a switch structure is used.
+
+``` js
+// function that runs the analysis for region level
+// analysis is run on the region with the name given
+function l1_analysis(l1_name){
+  // extract area of interest
+  var aoi = globals.gaul_l2.filter(ee.Filter.eq('ADM1_NAME', l1_name));
+
+  // update selection for l2 area
+  update_l2_selection(l1_name);
+  
+  // update summary text and vulnerability chart
+  var summary_text = createText(1, l1_name);
+  var vi_chart = vulnerability_index_chart(aoi);
+  
+  // visualise on map
+  UpdateMap();
+
+  // updating UI
+  // the UI is updated by overwriting the widgets with appropriate ones
+  left_panel.widgets().set(7, summary_text);
+  left_panel.widgets().set(10, vi_chart);
+}
+
+// function that runs the analysis for district level
+function l2_analysis(l2_name){
+
+  // update view so that it shows it's still loading
+  right_panel.widgets().set(4, ui.Label('Loading......', vis.text_style.text));
+  right_panel.widgets().set(5, ui.Label('Loading......', vis.text_style.text));
+
+  // extract area of interest
+  var aoi = globals.gaul_l2.filter(ee.Filter.eq('ADM2_NAME', l2_name));
+  // and flooded areas
+  var aoi_flooded = UI_functions.getFloodedInAoi(aoi, globals.cumulativeFlooded);
+  
+  // get l1 area
+  var l1_name = select_l1.getValue();
+  var l1 = globals.gaul_l1.filter(ee.Filter.eq('ADM1_NAME', l1_name));
+
+  // placeholder for chart
+  var chart = ui.Label();
+  
+  // Initialise on map
+  Map.clear();
+  Map.centerObject(aoi);
+  
+  // switch between criterias based on selection in dropdown
+  switch(select_analysis_criteria.getValue()){
+    // vulnerability
+    case criterias[0]:
+      vulnerabilityStats(aoi);
+      break;
+      
+    // land use
+    case criterias[1]:
+      landuseStats(aoi);
+      break;
+    
+    // population
+    case criterias[2]:
+      popStats(aoi);
+      break;
+  }
+  
+  // add AOI to map  
+  UpdateMap();
+}
+```
+
+Each function is called under the following conditions with the name of AOI as the argument:
+
+**Regional level analysis**
+
+- when region selection is updated (in left panel)
+- when zooming out
+
+**District level analysis**
+
+- when district selection is updated (in right panel)
+- when criteria selection is updated (in right panel)
+- when zooming in
+
+Since the same function is called for each level, this is implemented with the following code structure within the `onChange`.
+
+``` js
+// UI components calling analysis
+var any_ui_component = ui.Select({
+  onChange: function(selectedValue){ 
+    l1_analysis(selectedValue);
+    // l2_analysis(selectedValue) for L2 level analysis
+  }
+})
+```
+
+
+
+
+
+
+
+
+
