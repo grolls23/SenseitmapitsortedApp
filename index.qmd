@@ -52,7 +52,7 @@ Local governments in Pakistan need a simple to use application that allows for r
 
 *Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):*
 
-### Three main parts of analiysis
+### Three main parts of analysis
 
 Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The `app.js` file collects the different data layers and parts of analysis into one integrated app, deployed as a live Google Earth Engine Application. Each element is described in detail below.
 
