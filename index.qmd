@@ -52,7 +52,7 @@ Local governments in Pakistan need a simple to use application that allows for r
 
 *Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):*
 
-### Three main parts of analaysis
+### Three main parts of analiysis
 
 Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The `app.js` file collects the different data layers and parts of analysis into one integrated app, deployed as a live Google Earth Engine Application. Each element is described in detail below.
 
@@ -105,6 +105,34 @@ These calculations were carried out twice for both population and landcover to g
 ``` js
 var region_flooded = UI_functions.getFloodedInAoi(region, globals.cumulativeFlooded);
 ```
+The processed data is visualized using the `createChart` function, generating interactive column charts displaying the population distribution by age band. The `createText` function provides informative text describing the population distribution.
+
+```js
+function createChart(dataTable, title) {
+  return ui.Chart(dataTable)
+    .setChartType('ColumnChart')
+    .setOptions({
+      title: title,
+      titleTextStyle: { fontSize: 18 },
+      hAxis: { title: 'Age Band', textStyle: { fontSize: 10 }, showTextEvery: 1 },
+      vAxis: { title: 'Percentage', format: 'percent', viewWindow: { min: 0 }, gridlines: { count: -1 } },
+      legend: { position: 'none' },
+      bar: { groupWidth: '75%' },
+      chartArea: { width: '150%', height: '70%' },
+      annotations: { alwaysOutside: true },
+      tooltip: { isHtml: true }
+    });
+}
+```
+
+```js
+function createText(chartData) {
+  var totalPopulation = chartData.reduce(function(sum, data) { return sum + data.population; }, 0);
+
+  return 'Most populous age band is ' + chartData[2].label + ' with ' + chartData[2].population.toLocaleString() + ' inhabitants, representing ' + chartData[2].percentage.toFixed(1) + '% of the population, followed by ' + chartData[1].label + ' with ' + chartData[1].population.toLocaleString() + ' inhabitants, representing ' + chartData[1].percentage.toFixed(1) + '%. It is important to consider the needs of the most vulnerable groups: Children aged 0-5 with ' + chartData[0].population.toLocaleString() + ' inhabitants, representing ' + chartData[0].percentage.toFixed(1) + '% and Elderly aged 60 and above, who represent ' + chartData[3].population.toLocaleString() + ' inhabitants, representing ' + chartData[3].percentage.toFixed(1) + '% of the population respectively. These groups require special attention during emergencies such as flooding events due to their increased vulnerability.' +
+         ' The total population in the AOI is ' + totalPopulation.toLocaleString() + ' inhabitants.';
+}
+```
 
 #### Vulnerability Index
 
@@ -112,6 +140,39 @@ Using the HRSL data and the GFD, The vulnerability index is a product of the raw
 
 ``` js
 var vulnerabilityIndex = clippedHRSL.multiply(clippedCumulativeFlooded);
+```
+
+The resulting vulnerability index identifies the most vulnerable sub-regions. The `vulnerability_index_chart` function visualizes the mean vulnerability index for the top 10 most vulnerable sub-regions using an interactive column chart.
+
+```js
+var vulnerability_index_chart = function(aoi) {
+  var l2_list = aoi.aggregate_array('ADM2_NAME').distinct().getInfo().sort();
+
+  var result = ee.FeatureCollection(l2_list.map(function(l2_name) {
+    var roi = aoi.filter(ee.Filter.eq('ADM2_NAME', l2_name)).first();
+    var feature = calculateMeanVulnerability(roi);
+    return feature;
+  }));
+  
+  var sortedResult = result.sort('mean_vulnerability_index', false);
+  var top10Result = sortedResult.limit(10);
+
+  var chart = ui.Chart.feature.byFeature(top10Result, 'ADM2_NAME', 'mean_vulnerability_index')
+    .setChartType('ColumnChart')
+    .setOptions({
+      title: 'Mean Vulnerability Index per sub-region',
+      hAxis: {title: 'Region (l2)', slantedText: true, slantedTextAngle: 45},
+      vAxis: {title: 'Mean Vulnerability Index'},
+      legend: {position: 'none'},
+      height: 200,
+      width: 1000,
+      series: {
+        0: {color: '#D83220'}
+      }
+    });
+    
+  return chart;
+};
 ```
 
 Given, that population data is at a high resolution (30m), when mapping this layer, we use a smoothing kernel of size 500m kernel, in order to make its visualisation prettier. This is done using the function below:
@@ -130,6 +191,8 @@ var interpolate = function(image) {
 
 var smoothedVulnerabilityIndex = interpolate(vulnerabilityIndex).updateMask(interpolate(vulnerabilityIndex).gt(0));
 ```
+
+
 
 ### User Interface and Interaction
 
