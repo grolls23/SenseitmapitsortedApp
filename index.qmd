@@ -239,14 +239,14 @@ Each function is called under the following conditions with the name of AOI as t
 
 **Regional level analysis**
 
-- when region selection is updated (in left panel)
-- when zooming out
+-   when region selection is updated (in left panel)
+-   when zooming out
 
 **District level analysis**
 
-- when district selection is updated (in right panel)
-- when criteria selection is updated (in right panel)
-- when zooming in
+-   when district selection is updated (in right panel)
+-   when criteria selection is updated (in right panel)
+-   when zooming in
 
 Since the same function is called for each level, this is implemented with the following code structure within the `onChange`.
 
@@ -259,12 +259,3 @@ var any_ui_component = ui.Select({
   }
 })
 ```
-
-
-
-
-
-
-
-
-
