@@ -61,13 +61,55 @@ Use this section to explain how your application works using code blocks and tex
 
 Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The `app.js` file collects the different data layers and parts of analysis into one integrated app, deployed as a live Google Earth Engine Application. Each element is described in detail below:
 
-#### Population Data Analysis
+#### Population & Land Use Analysis
 
-TODO
+When the user selects a district (regional subdivision) and requests analysis of population breakdown or land use, data is aggregated from the appropriate data (population data from Data for Good and land use data from Dynamic World) using an asynchronous function. The case for land use is seen below, where an area and percentage of each landcover class is calculated using a reducer applied to pixels of a certain land class type, before being added to arrays which store the full set of areas and percentages for each type. 
 
-#### Land Use Analysis
+``` js
+  totalArea.evaluate(function(result){
+    var pixelArea = result.label_mode;
+    totalAreasqkm = pixelArea * (300 * 300 / 1000000);
+      
+    var areaPerClass = {};
+    var pctPerClass = {};
+    
+    var completedCount = 0;
+    
+    for (var i = 0; i < CLASS_NAMES.length; i++) {
+      (function(index) {
+        var filteredLandUseData = landuseData.updateMask(landuseData.eq(index));
+  
+        var classCount = filteredLandUseData.reduceRegion({
+          reducer: ee.Reducer.count(),
+          geometry: region,
+          scale: 300,
+          maxPixels: 1e9
+        });
+  
+        classCount.evaluate(function(result) {
+          var pixelCount = result.label_mode;
+  
+          var pixelArea = pixelCount * (300 * 300 / 1000000);
+          areaPerClass[CLASS_NAMES[index]] = pixelArea;
+          pctPerClass[CLASS_NAMES[index]] = 100 * pixelArea / totalAreasqkm;
+```
 
-TODO
+The multiplier (300 * 300 / 1000000) is a conversion from pixels to square kilometres (specific to the scale of this reducer). Population calculations applied a sum reducer instead of a count reducer, separated by age band.
+
+```js
+  var populationByAgeBand_aoi = HRSL_collection.reduceRegion({
+    reducer: ee.Reducer.sum(),
+    geometry: aoi.geometry(),
+    scale: 30,
+    maxPixels: 1e13
+  });
+```
+
+These calculations were carried out twice for both population and landcover to give a breakdown across the entire district as well as across all parts of the district 'affected by flooding', meaning these areas have had floods recorded in the Global Flood Database. This information is stored in a raster and accessed through the following code:
+
+```js
+var region_flooded = UI_functions.getFloodedInAoi(region, globals.cumulativeFlooded);
+```
 
 #### Vulnerability Index
 

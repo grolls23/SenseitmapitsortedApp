@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -173,31 +173,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="three-main-parts-of-analaysis" class="level3">
 <h3 class="anchored" data-anchor-id="three-main-parts-of-analaysis">Three main parts of analaysis</h3>
 <p>Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The <code>app.js</code> file collects the different data layers and parts of analysis into one integrated app, deployed as a live Google Earth Engine Application. Each element is described in detail below:</p>
-<section id="population-data-analysis" class="level4">
-<h4 class="anchored" data-anchor-id="population-data-analysis">Population Data Analysis</h4>
-<p>TODO</p>
-</section>
-<section id="land-use-analysis" class="level4">
-<h4 class="anchored" data-anchor-id="land-use-analysis">Land Use Analysis</h4>
-<p>TODO</p>
+<section id="population-land-use-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="population-land-use-analysis">Population &amp; Land Use Analysis</h4>
+<p>When the user selects a district (regional subdivision) and requests analysis of population breakdown or land use, data is aggregated from the appropriate data (population data from Data for Good and land use data from Dynamic World) using an asynchronous function. The case for land use is seen below, where an area and percentage of each landcover class is calculated using a reducer applied to pixels of a certain land class type, before being added to arrays which store the full set of areas and percentages for each type.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  totalArea<span class="op">.</span><span class="fu">evaluate</span>(<span class="kw">function</span>(result){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> pixelArea <span class="op">=</span> result<span class="op">.</span><span class="at">label_mode</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    totalAreasqkm <span class="op">=</span> pixelArea <span class="op">*</span> (<span class="dv">300</span> <span class="op">*</span> <span class="dv">300</span> <span class="op">/</span> <span class="dv">1000000</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> areaPerClass <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> pctPerClass <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> completedCount <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">var</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> CLASS_NAMES<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">function</span>(index) {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> filteredLandUseData <span class="op">=</span> landuseData<span class="op">.</span><span class="fu">updateMask</span>(landuseData<span class="op">.</span><span class="fu">eq</span>(index))<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> classCount <span class="op">=</span> filteredLandUseData<span class="op">.</span><span class="fu">reduceRegion</span>({</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>          <span class="dt">reducer</span><span class="op">:</span> ee<span class="op">.</span><span class="at">Reducer</span><span class="op">.</span><span class="fu">count</span>()<span class="op">,</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>          <span class="dt">geometry</span><span class="op">:</span> region<span class="op">,</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>          <span class="dt">scale</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>          <span class="dt">maxPixels</span><span class="op">:</span> <span class="fl">1e9</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        })<span class="op">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        classCount<span class="op">.</span><span class="fu">evaluate</span>(<span class="kw">function</span>(result) {</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>          <span class="kw">var</span> pixelCount <span class="op">=</span> result<span class="op">.</span><span class="at">label_mode</span><span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>          <span class="kw">var</span> pixelArea <span class="op">=</span> pixelCount <span class="op">*</span> (<span class="dv">300</span> <span class="op">*</span> <span class="dv">300</span> <span class="op">/</span> <span class="dv">1000000</span>)<span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>          areaPerClass[CLASS_NAMES[index]] <span class="op">=</span> pixelArea<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>          pctPerClass[CLASS_NAMES[index]] <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> pixelArea <span class="op">/</span> totalAreasqkm<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The multiplier (300 * 300 / 1000000) is a conversion from pixels to square kilometres (specific to the scale of this reducer). Population calculations applied a sum reducer instead of a count reducer, separated by age band.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> populationByAgeBand_aoi <span class="op">=</span> HRSL_collection<span class="op">.</span><span class="fu">reduceRegion</span>({</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">reducer</span><span class="op">:</span> ee<span class="op">.</span><span class="at">Reducer</span><span class="op">.</span><span class="fu">sum</span>()<span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">geometry</span><span class="op">:</span> aoi<span class="op">.</span><span class="fu">geometry</span>()<span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">scale</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">maxPixels</span><span class="op">:</span> <span class="fl">1e13</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These calculations were carried out twice for both population and landcover to give a breakdown across the entire district as well as across all parts of the district ‘affected by flooding’, meaning these areas have had floods recorded in the Global Flood Database. This information is stored in a raster and accessed through the following code:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> region_flooded <span class="op">=</span> UI_functions<span class="op">.</span><span class="fu">getFloodedInAoi</span>(region<span class="op">,</span> globals<span class="op">.</span><span class="at">cumulativeFlooded</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="vulnerability-index" class="level4">
 <h4 class="anchored" data-anchor-id="vulnerability-index">Vulnerability Index</h4>
 <p>Using the HRSL data and the GFD, The vulnerability index is a product of the raw population count and the number of flood occurrences, calculated as below:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> vulnerabilityIndex <span class="op">=</span> clippedHRSL<span class="op">.</span><span class="fu">multiply</span>(clippedCumulativeFlooded)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> vulnerabilityIndex <span class="op">=</span> clippedHRSL<span class="op">.</span><span class="fu">multiply</span>(clippedCumulativeFlooded)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Given, that population data is at a high resolution (30m), when mapping this layer, we use a smoothing kernel of size 500m kernel, in order to make its visualisation prettier. This is done using the function below:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> kernel <span class="op">=</span> ee<span class="op">.</span><span class="at">Kernel</span><span class="op">.</span><span class="fu">square</span>({</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">radius</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">units</span><span class="op">:</span> <span class="st">'meters'</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> interpolate <span class="op">=</span> <span class="kw">function</span>(image) {</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> smoothed <span class="op">=</span> image<span class="op">.</span><span class="fu">focal_mean</span>({<span class="dt">kernel</span><span class="op">:</span> kernel<span class="op">,</span> <span class="dt">iterations</span><span class="op">:</span> <span class="dv">1</span>})<span class="op">;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> filled <span class="op">=</span> image<span class="op">.</span><span class="fu">unmask</span>(smoothed)<span class="op">;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> filled<span class="op">;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> smoothedVulnerabilityIndex <span class="op">=</span> <span class="fu">interpolate</span>(vulnerabilityIndex)<span class="op">.</span><span class="fu">updateMask</span>(<span class="fu">interpolate</span>(vulnerabilityIndex)<span class="op">.</span><span class="fu">gt</span>(<span class="dv">0</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> kernel <span class="op">=</span> ee<span class="op">.</span><span class="at">Kernel</span><span class="op">.</span><span class="fu">square</span>({</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">radius</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">units</span><span class="op">:</span> <span class="st">'meters'</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> interpolate <span class="op">=</span> <span class="kw">function</span>(image) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> smoothed <span class="op">=</span> image<span class="op">.</span><span class="fu">focal_mean</span>({<span class="dt">kernel</span><span class="op">:</span> kernel<span class="op">,</span> <span class="dt">iterations</span><span class="op">:</span> <span class="dv">1</span>})<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> filled <span class="op">=</span> image<span class="op">.</span><span class="fu">unmask</span>(smoothed)<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> filled<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> smoothedVulnerabilityIndex <span class="op">=</span> <span class="fu">interpolate</span>(vulnerabilityIndex)<span class="op">.</span><span class="fu">updateMask</span>(<span class="fu">interpolate</span>(vulnerabilityIndex)<span class="op">.</span><span class="fu">gt</span>(<span class="dv">0</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
