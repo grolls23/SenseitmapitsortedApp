@@ -323,5 +323,7 @@ var any_ui_component = ui.Select({
 })
 ```
 
-### Link to Code
-https://github.com/jankomag/gee-flood-app
+### Links
+[Standalone App](https://ee-yankomagn.projects.earthengine.app/view/floods-pakistan)
+
+[GitHub for App](https://github.com/jankomag/gee-flood-app)
