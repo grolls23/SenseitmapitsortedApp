@@ -12,7 +12,7 @@ Pakistan has one of the highest disaster risk levels globally. Flooding is the m
 
 *Who are you building this application for? How does it address a need this community has?*
 
-This application is built for local governments in Pakistan. Flood risk adaptation is at the top of the political agenda for divisional (second tier) and district (third tier) governments. In the devastating floods of 2022, one-third of the country was under water, 33 million people affected, and around 8 million people displaced. This application helps second and third tier governments in Pakistan to understand flood risk locally and support adaptation investment decisions in multi-level governance systems. The end user wants to know: Which areas are prone to flooding and what is the impact on people and the economy?
+This application is built for local governments in Pakistan. Flood risk adaptation is at the top of the political agenda for divisional (second tier) and district (third tier) governments. In the devastating [floods of 2022](https://www.worldbank.org/en/news/press-release/2022/10/28/pakistan-flood-damages-and-economic-losses-over-usd-30-billion-and-reconstruction-needs-over-usd-16-billion-new-assessme), one-third of the country was under water, 33 million people affected, and around 8 million people displaced. This application helps second and third tier governments in Pakistan to understand flood risk locally and support adaptation investment decisions in multi-level governance systems. The end user wants to know: Which areas are prone to flooding and what is the impact on people and the economy?
 
 ![Flooding in Sindh, 2022 (Source: https://news.un.org/en/story/2022/09/1126001)](images/floodsindh.jpg)
 
