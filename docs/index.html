@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -80,7 +80,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -89,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -111,15 +118,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="sense-it-map-it-sorted---flooding-the-sindh-region-of-pakistan" class="level1 page-columns page-full">
-<h1>Sense It, Map It, Sorted - Flooding the Sindh region of Pakistan</h1>
+
+<section id="sense-it-map-it-sorted---flood-risk-in-pakistan" class="level1 page-columns page-full">
+<h1>Sense It, Map It, Sorted - Flood Risk in Pakistan</h1>
 <section id="project-summary" class="level2">
 <h2 class="anchored" data-anchor-id="project-summary">Project Summary</h2>
-<p><em>Fill in the sections below to provide a brief summary of your project. Each section should have no more than 100 words. Do not edit any of the headings.</em></p>
 <section id="problem-statement" class="level3">
 <h3 class="anchored" data-anchor-id="problem-statement">Problem Statement</h3>
 <p><em>What is the problem you’re trying to address using this application?</em></p>
-<p>Pakistan has one of the highest disaster risk levels globally. Flooding is the main hazard contributing to disaster risk in Pakistan. The country has has high exposure to riverine, flash and coastal flooding as well as tropical cyclones and high social vulnerability driven by multi-dimensional poverty. Flood risk and damage assessments exist at the national level, however, local level data on flood risk is missing. Local governments need such data for their jurisdictions in order to access adaptation funding and direct investment to the areas with highest risk.</p>
+<p>Pakistan has one of the highest disaster risk levels globally. Flooding is the main hazard contributing to disaster risk in Pakistan. The country has high exposure to different types of flooding including riverine, flash and coastal flooding as well as tropical cyclones and high social vulnerability driven by multi-dimensional poverty. Flood risk and damage assessments exist at the national level, however, local level data on flood risk is missing. Local governments need such data for their jurisdictions in order to access adaptation funding and direct investment to the areas with highest risk.</p>
 </section>
 <section id="end-user" class="level3">
 <h3 class="anchored" data-anchor-id="end-user">End User</h3>
@@ -128,10 +135,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/floodsindh.jpg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Flooding in Sindh, 2022 (Source: https://news.un.org/en/story/2022/09/1126001)</figcaption>
+<figcaption>Flooding in Sindh, 2022 (Source: https://news.un.org/en/story/2022/09/1126001)</figcaption>
 </figure>
 </div>
-<p>Source for numbers make reference file: https://www.worldbank.org/en/news/feature/2023/06/28/rising-from-the-waters-sindh-navigates-recovery-after-the-2022-floods</p>
 </section>
 <section id="data" class="level3">
 <h3 class="anchored" data-anchor-id="data">Data</h3>
@@ -139,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The application uses the following data sources:</p>
 <ul>
 <li><strong>Flood events</strong>: The <a href="https://developers.google.com/earth-engine/datasets/catalog/GLOBAL_FLOOD_DB_MODIS_EVENTS_V1">Global Flood Database</a> contains 913 flood events between 2000-2018 globally and is based on MODIS imagery. Each pixel is classified as water or non-water at 250m resolution where permanent water is masked out using the Global Surface Water dataset.</li>
-<li><strong>Population</strong>: <a href="https://dataforgood.facebook.com/dfg/tools/high-resolution-population-density-maps">High Resolution Population Density Maps</a> from Data for Good. (HRSL)</li>
+<li><strong>Population</strong>: <a href="https://dataforgood.facebook.com/dfg/tools/high-resolution-population-density-maps">High Resolution Population Density Maps</a> (HRSL) from Data for Good.</li>
 <li><strong>Land use:</strong> The <a href="https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1">Dynamic World Dataset</a> contains near real time Land Use Land Cover classification based on Sentinel 2 imagery from 2015 to present. Only the classes “bulit up” and “crops” are used for the application.</li>
 </ul>
 </section>
@@ -148,16 +154,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/flowchart.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Methods flowchart</figcaption>
+<figcaption>Methods flowchart</figcaption>
 </figure>
 </div>
 <p>How are you using this data to address the problem?</p>
-<p>The data is used to develop an indicative flood risk map at division and district level in Pakistan. Risk is commonly defined as function of hazard, exposure and vulnerability. The baseline assumption of this analysis is that areas that have been flooded in the past are expected to flood in the future. Hence, using a cumulative analysis of flood events between 2000 and 2018, the occurrence of floods is used as a proxy for exposure. A vulnerability index is calculated as a product of the raw population count and the number of flood occurrences. The results are combined into an integrated user interface.</p>
+<p>The data is used to develop an indicative flood risk map for Pakistan. The Sendai Framework, the global guideline for disaster risk reduction, defines risk as a function of hazard, exposure and vulnerability. The assumption of this analysis is that areas that flooded in the past are likely to flood again. Hence, using a cumulative analysis of flood events over 18 years, the occurrence of floods is used as a proxy for exposure. A vulnerability index is calculated as a product of the raw population count and the number of past floods. The results are combined into an integrated application.</p>
 </section>
 <section id="interface" class="level3">
 <h3 class="anchored" data-anchor-id="interface">Interface</h3>
 <p><em>How does your application’s interface work to address the needs of your end user?</em></p>
-<p>Local governments in Pakistan need a simple to use application that allows for rapid identification of flood risk locally with a simple presentation of data without technical jargon. The interface has two layers. On the first (left-hand side), the user can retrieve comparative information about affected divisons and select the district they want to explore. Once selected, vulnerarbility, land use and population The user can select a district and retrieve more detailed information about the number of flood events, population affected over time and land use types affected on the right-hand side.</p>
+<p>Local governments in Pakistan need a simple to use application that allows for rapid identification of flood risk locally with a simple presentation of data without technical jargon. The interface has two layers. On the first (left-hand side), the user can select a division and retrieve comparative information about affected districts. On the right hand side, the user can select a district and to explore effected population, land use and vulnerability. Based on this data, local governments can identify areas that are prone to flooding with high impact on people and the economy.</p>
 </section>
 </section>
 <section id="the-application" class="level2 page-columns page-full">
@@ -169,10 +175,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="how-it-works" class="level2">
 <h2 class="anchored" data-anchor-id="how-it-works">How it Works</h2>
-<p>Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):</p>
+<p><em>Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):</em></p>
 <section id="three-main-parts-of-analaysis" class="level3">
 <h3 class="anchored" data-anchor-id="three-main-parts-of-analaysis">Three main parts of analaysis</h3>
-<p>Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The <code>app.js</code> file collects the different data layers and parts of analysis into one integrated app, deployed as a live Google Earth Engine Application. Each element is described in detail below:</p>
+<p>Our project is split into 3 main parts that use different data sources: population, land-use, and vulnerability. The <code>app.js</code> file collects the different data layers and parts of analysis into one integrated app, deployed as a live Google Earth Engine Application. Each element is described in detail below.</p>
 <section id="population-land-use-analysis" class="level4">
 <h4 class="anchored" data-anchor-id="population-land-use-analysis">Population &amp; Land Use Analysis</h4>
 <p>When the user selects a district (regional subdivision) and requests analysis of population breakdown or land use, data is aggregated from the appropriate data (population data from Data for Good and land use data from Dynamic World) using an asynchronous function. The case for land use is seen below, where an area and percentage of each landcover class is calculated using a reducer applied to pixels of a certain land class type, before being added to arrays which store the full set of areas and percentages for each type.</p>
@@ -280,6 +286,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
   }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
   const toggleColorMode = (alternate) => {
     // Switch the stylesheets
     const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
@@ -346,13 +379,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'alternate';
+  const darkModeDefault = true;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -431,10 +466,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -444,8 +478,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -458,6 +501,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -501,6 +663,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -526,6 +689,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -586,6 +775,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
